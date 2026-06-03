@@ -15,19 +15,19 @@
     <!-- 统计 -->
     <div class="stats-bar">
       <div class="stat-item">
-        <div class="stat-num">128</div>
+        <div class="stat-num">{{ stats.rescuedDogs || 0 }}</div>
         <div class="stat-label">已救助狗狗</div>
       </div>
       <div class="stat-item">
-        <div class="stat-num">86</div>
+        <div class="stat-num">{{ stats.adoptedDogs || 0 }}</div>
         <div class="stat-label">成功领养</div>
       </div>
       <div class="stat-item">
-        <div class="stat-num">45</div>
+        <div class="stat-num">{{ stats.activeVolunteers || 0 }}</div>
         <div class="stat-label">活跃志愿者</div>
       </div>
       <div class="stat-item">
-        <div class="stat-num">¥32,560</div>
+        <div class="stat-num">￥{{ formatMoney(stats.monthlyDonations) }}</div>
         <div class="stat-label">本月捐款</div>
       </div>
     </div>
@@ -81,14 +81,35 @@ import request from '@/api/request'
 const router = useRouter()
 const dogList = ref([])
 const storyList = ref([])
+const stats = ref({
+  rescuedDogs: 0,
+  adoptedDogs: 0,
+  activeVolunteers: 0,
+  monthlyDonations: 0
+})
+
+const formatMoney = (amount) => {
+  if (!amount) return '0'
+  return Number(amount).toLocaleString('zh-CN', { minimumFractionDigits: 0, maximumFractionDigits: 0 })
+}
 
 const loadData = async () => {
   try {
+    // 加载统计数据
+    const statsData = await request.get('/stats/home')
+    if (statsData) {
+      stats.value = statsData
+    }
+    
+    // 加载狗狗列表
     const dogs = await request.get('/dogs', { params: { page: 1, size: 4, status: '待领养' } })
     dogList.value = dogs.list || []
+    
+    // 加载故事列表
     const stories = await request.get('/stories', { params: { page: 1, size: 3 } })
     storyList.value = stories.list || []
   } catch (e) {
+    console.error('加载数据失败:', e)
     dogList.value = [
       { id: 1, name: '旺财', gender: '公', breed: '中华田园犬', age: 2, description: '性格温顺，喜欢和人亲近', imageUrls: '' },
       { id: 2, name: '花花', gender: '母', breed: '金毛', age: 1, description: '活泼可爱，已完成疫苗接种', imageUrls: '' },

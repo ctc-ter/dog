@@ -7,24 +7,38 @@
     <div class="content-wrap">
       <el-tabs v-model="activeTab" type="border-card">
         <el-tab-pane label="寻狗启示" name="lost">
-          <el-button type="primary" @click="showDialog('lost')">发布寻狗</el-button>
-          <el-table :data="lostList" style="margin-top:16px">
-            <el-table-column prop="title" label="标题" />
-            <el-table-column prop="location" label="走失地点" />
-            <el-table-column prop="eventTime" label="时间" />
-            <el-table-column prop="contactPhone" label="联系电话" />
-            <el-table-column prop="status" label="状态" />
-          </el-table>
+          <el-button type="primary" @click="showDialog('lost')" style="margin-bottom:16px">发布寻狗</el-button>
+          <el-row :gutter="20">
+            <el-col :xs="24" :sm="12" :md="8" :lg="6" v-for="item in lostList" :key="item.id">
+              <el-card shadow="hover" class="lf-card">
+                <el-image v-if="item.imageUrls" :src="item.imageUrls.split(',')[0]" fit="cover" class="lf-img" />
+                <div class="lf-info">
+                  <h3>{{ item.title }}</h3>
+                  <p><strong>地点：</strong>{{ item.location }}</p>
+                  <p><strong>时间：</strong>{{ item.eventTime }}</p>
+                  <p><strong>联系：</strong>{{ item.contactPhone }}</p>
+                  <el-tag :type="item.status === '进行中' ? 'warning' : 'success'">{{ item.status }}</el-tag>
+                </div>
+              </el-card>
+            </el-col>
+          </el-row>
         </el-tab-pane>
         <el-tab-pane label="招领启示" name="found">
-          <el-button type="primary" @click="showDialog('found')">发布招领</el-button>
-          <el-table :data="foundList" style="margin-top:16px">
-            <el-table-column prop="title" label="标题" />
-            <el-table-column prop="location" label="发现地点" />
-            <el-table-column prop="eventTime" label="时间" />
-            <el-table-column prop="contactPhone" label="联系电话" />
-            <el-table-column prop="status" label="状态" />
-          </el-table>
+          <el-button type="primary" @click="showDialog('found')" style="margin-bottom:16px">发布招领</el-button>
+          <el-row :gutter="20">
+            <el-col :xs="24" :sm="12" :md="8" :lg="6" v-for="item in foundList" :key="item.id">
+              <el-card shadow="hover" class="lf-card">
+                <el-image v-if="item.imageUrls" :src="item.imageUrls.split(',')[0]" fit="cover" class="lf-img" />
+                <div class="lf-info">
+                  <h3>{{ item.title }}</h3>
+                  <p><strong>地点：</strong>{{ item.location }}</p>
+                  <p><strong>时间：</strong>{{ item.eventTime }}</p>
+                  <p><strong>联系：</strong>{{ item.contactPhone }}</p>
+                  <el-tag :type="item.status === '进行中' ? 'warning' : 'success'">{{ item.status }}</el-tag>
+                </div>
+              </el-card>
+            </el-col>
+          </el-row>
         </el-tab-pane>
       </el-tabs>
 
@@ -107,5 +121,10 @@ onMounted(loadData)
   text-align: center;
 }
 .page-banner h1 { font-size: 36px; margin-bottom: 10px; }
-.content-wrap { max-width: 1200px; margin: 30px auto; padding: 0 20px; }
+.content-wrap { max-width: 1400px; margin: 30px auto; padding: 0 20px; }
+.lf-card { cursor: pointer; margin-bottom: 20px; }
+.lf-img { width: 100%; height: 200px; border-radius: 4px; }
+.lf-info { padding: 12px 0; }
+.lf-info h3 { font-size: 16px; margin-bottom: 10px; color: #333; }
+.lf-info p { font-size: 13px; color: #666; margin-bottom: 6px; }
 </style>

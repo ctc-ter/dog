@@ -1,27 +1,17 @@
 ========================================
   流浪狗救助站 - 启动说明
 ========================================
+启动postsql
+cd D:\pgsql\pgsql\bin
+.\pg_ctl start -D "D:\pgsql\pgsql\data"
 
-【启动方式】
-  在 IDEA 中运行 DogRescueApplication 主类
-  然后浏览器访问 http://localhost:8081
+启动方式
+ 在 IDEA 中运行 DogRescueApplication 主类
 
-  （前端已构建好并集成在后端中，无需单独启动前端）
+终端复制打开
+ cd src/frontend
+ npm run dev
 
-========================================
+ 然后访问 http://localhost:3000（支持热更新）
 
-【开发者模式 - 需要安装 Node.js】
-  如需修改前端代码并实时预览，可安装 Node.js 后执行：
 
-  注意：安装 Node.js 后，已打开的旧终端需先刷新 PATH，否则 npm 无法识别：
-  $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
-
-  刷新后即可启动前端：
-  cd src/frontend
-  npm run dev
-
-  然后访问 http://localhost:3000（支持热更新）
-
-  提示：也可以直接关闭旧终端，重新打开一个新终端，无需手动刷新 PATH
-
-========================================
