@@ -11,7 +11,9 @@
           <el-row :gutter="20">
             <el-col :xs="24" :sm="12" :md="8" :lg="6" v-for="item in lostList" :key="item.id">
               <el-card shadow="hover" class="lf-card">
-                <el-image v-if="item.imageUrls" :src="item.imageUrls.split(',')[0]" fit="cover" class="lf-img" />
+                <el-image v-if="item.imageUrls" :src="item.imageUrls.split(',')[0]" fit="cover" class="lf-img">
+                  <template #error><div class="img-fallback"><el-icon :size="40"><Picture /></el-icon><span>图片加载失败</span></div></template>
+                </el-image>
                 <div class="lf-info">
                   <h3>{{ item.title }}</h3>
                   <p><strong>地点：</strong>{{ item.location }}</p>
@@ -28,7 +30,9 @@
           <el-row :gutter="20">
             <el-col :xs="24" :sm="12" :md="8" :lg="6" v-for="item in foundList" :key="item.id">
               <el-card shadow="hover" class="lf-card">
-                <el-image v-if="item.imageUrls" :src="item.imageUrls.split(',')[0]" fit="cover" class="lf-img" />
+                <el-image v-if="item.imageUrls" :src="item.imageUrls.split(',')[0]" fit="cover" class="lf-img">
+                  <template #error><div class="img-fallback"><el-icon :size="40"><Picture /></el-icon><span>图片加载失败</span></div></template>
+                </el-image>
                 <div class="lf-info">
                   <h3>{{ item.title }}</h3>
                   <p><strong>地点：</strong>{{ item.location }}</p>
@@ -75,6 +79,7 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import { ElMessage } from 'element-plus'
+import { Picture } from '@element-plus/icons-vue'
 import request from '@/api/request'
 
 const activeTab = ref('lost')
@@ -83,8 +88,8 @@ const dialogVisible = ref(false)
 const dialogTitle = ref('')
 const form = ref({ type: '', title: '', location: '', description: '', contactName: '', contactPhone: '', eventTime: '' })
 
-const lostList = computed(() => list.value.filter(i => i.type === '寻狗'))
-const foundList = computed(() => list.value.filter(i => i.type === '招领'))
+const lostList = computed(() => list.value.filter(i => i.type === '寻狗启事'))
+const foundList = computed(() => list.value.filter(i => i.type === '发现流浪狗'))
 
 const loadData = async () => {
   try {
@@ -94,7 +99,7 @@ const loadData = async () => {
 }
 
 const showDialog = (type) => {
-  form.value = { type: type === 'lost' ? '寻狗' : '招领', title: '', location: '', description: '', contactName: '', contactPhone: '', eventTime: '' }
+  form.value = { type: type === 'lost' ? '寻狗启事' : '发现流浪狗', title: '', location: '', description: '', contactName: '', contactPhone: '', eventTime: '' }
   dialogTitle.value = type === 'lost' ? '发布寻狗启示' : '发布招领启示'
   dialogVisible.value = true
 }
@@ -127,4 +132,5 @@ onMounted(loadData)
 .lf-info { padding: 12px 0; }
 .lf-info h3 { font-size: 16px; margin-bottom: 10px; color: #333; }
 .lf-info p { font-size: 13px; color: #666; margin-bottom: 6px; }
+.img-fallback { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #f5f7fa; color: #c0c4cc; gap: 8px; font-size: 12px; }
 </style>

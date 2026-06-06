@@ -5,7 +5,9 @@
         <el-col :md="12">
           <el-carousel height="400px" v-if="images.length">
             <el-carousel-item v-for="(img, idx) in images" :key="idx">
-              <el-image :src="img" fit="cover" style="width:100%;height:100%" />
+              <el-image :src="img" fit="cover" style="width:100%;height:100%">
+                <template #error><div class="img-fallback"><el-icon :size="50"><Picture /></el-icon><span>图片加载失败</span></div></template>
+              </el-image>
             </el-carousel-item>
           </el-carousel>
         </el-col>
@@ -40,6 +42,7 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { Picture } from '@element-plus/icons-vue'
 import request from '@/api/request'
 
 const route = useRoute()
@@ -69,4 +72,5 @@ h1 { font-size: 28px; margin-bottom: 20px; }
 .info-row { margin-bottom: 14px; font-size: 16px; }
 .label { color: #666; font-weight: 500; }
 .desc p { margin-top: 8px; line-height: 1.8; color: #555; }
+.img-fallback { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #f5f7fa; color: #c0c4cc; gap: 8px; font-size: 14px; }
 </style>

@@ -16,6 +16,7 @@ const routes = [
       { path: 'donate', name: 'Donate', component: () => import('@/views/front/Donate.vue') },
       { path: 'volunteer', name: 'Volunteer', component: () => import('@/views/front/Volunteer.vue') },
       { path: 'lost-found', name: 'LostFound', component: () => import('@/views/front/LostFound.vue') },
+      { path: 'recognize', name: 'Recognize', component: () => import('@/views/front/Recognize.vue') },
       { path: 'adopt-apply/:id', name: 'AdoptApply', component: () => import('@/views/front/AdoptApply.vue') }
     ]
   },

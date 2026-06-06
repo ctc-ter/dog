@@ -31,7 +31,9 @@
     <el-row :gutter="20" class="dog-list">
       <el-col :xs="24" :sm="12" :md="8" :lg="6" v-for="dog in list" :key="dog.id">
         <el-card shadow="hover" class="dog-card" @click="goDetail(dog.id)">
-          <el-image :src="dog.imageUrls ? dog.imageUrls.split(',')[0] : ''" fit="cover" class="dog-img" />
+          <el-image :src="dog.imageUrls ? dog.imageUrls.split(',')[0] : ''" fit="cover" class="dog-img">
+            <template #error><div class="img-fallback"><el-icon :size="40"><Picture /></el-icon><span>图片加载失败</span></div></template>
+          </el-image>
           <div class="dog-info">
             <h3>{{ dog.name }} <el-tag size="small" :type="dog.status === '待领养' ? 'success' : 'info'">{{ dog.status }}</el-tag></h3>
             <p>{{ dog.breed }} · {{ dog.gender }} · {{ dog.age }}岁</p>
@@ -56,6 +58,7 @@
 <script setup>
 import { reactive, ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import { Picture } from '@element-plus/icons-vue'
 import request from '@/api/request'
 
 const router = useRouter()
@@ -95,4 +98,5 @@ onMounted(loadData)
 .health { color: #67c23a; font-size: 13px; margin-top: 6px; }
 .desc { color: #999; font-size: 13px; margin-top: 8px; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
 .pagination { display: flex; justify-content: center; margin-top: 20px; }
+.img-fallback { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #f5f7fa; color: #c0c4cc; gap: 8px; font-size: 12px; }
 </style>

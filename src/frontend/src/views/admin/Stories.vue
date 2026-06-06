@@ -8,7 +8,9 @@
       <el-table-column prop="id" label="ID" width="60" />
       <el-table-column label="封面" width="100">
         <template #default="scope">
-          <el-image :src="scope.row.coverImage" style="width:60px;height:60px" fit="cover" />
+          <el-image :src="scope.row.coverImage" style="width:60px;height:60px" fit="cover">
+            <template #error><div style="width:60px;height:60px;display:flex;align-items:center;justify-content:center;background:#f5f7fa;color:#c0c4cc;font-size:10px">失败</div></template>
+          </el-image>
         </template>
       </el-table-column>
       <el-table-column prop="title" label="标题" />

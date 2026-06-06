@@ -41,7 +41,9 @@
       <el-row :gutter="20">
         <el-col :xs="24" :sm="12" :md="8" :lg="6" v-for="dog in dogList" :key="dog.id">
           <el-card class="dog-card" shadow="hover" @click="goDetail(dog.id)">
-            <el-image :src="dog.imageUrls ? dog.imageUrls.split(',')[0] : ''" fit="cover" class="dog-img" />
+            <el-image :src="dog.imageUrls ? dog.imageUrls.split(',')[0] : ''" fit="cover" class="dog-img">
+              <template #error><div class="img-fallback"><el-icon :size="40"><Picture /></el-icon><span>图片加载失败</span></div></template>
+            </el-image>
             <div class="dog-info">
               <h3>{{ dog.name }} <el-tag size="small" :type="dog.gender === '公' ? 'primary' : 'danger'">{{ dog.gender }}</el-tag></h3>
               <p class="dog-breed">{{ dog.breed }} · {{ dog.age }}岁</p>
@@ -61,7 +63,9 @@
       <el-row :gutter="20">
         <el-col :xs="24" :sm="12" :md="8" v-for="story in storyList" :key="story.id">
           <el-card class="story-card" shadow="hover" @click="goStory(story.id)">
-            <el-image :src="story.coverImage" fit="cover" class="story-img" />
+            <el-image :src="story.coverImage" fit="cover" class="story-img">
+              <template #error><div class="img-fallback"><el-icon :size="40"><Picture /></el-icon><span>图片加载失败</span></div></template>
+            </el-image>
             <div class="story-info">
               <h3>{{ story.title }}</h3>
               <p>{{ story.content ? story.content.substring(0, 60) + '...' : '' }}</p>
@@ -76,6 +80,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import { Picture } from '@element-plus/icons-vue'
 import request from '@/api/request'
 
 const router = useRouter()
@@ -231,5 +236,17 @@ onMounted(loadData)
   color: #666;
   font-size: 14px;
   margin-top: 8px;
+}
+.img-fallback {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #f5f7fa;
+  color: #c0c4cc;
+  gap: 8px;
+  font-size: 12px;
 }
 </style>

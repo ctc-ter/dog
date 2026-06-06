@@ -8,7 +8,9 @@
       <el-row :gutter="20">
         <el-col :xs="24" :sm="12" :md="8" v-for="story in list" :key="story.id">
           <el-card shadow="hover" class="story-card" @click="goDetail(story.id)">
-            <el-image :src="story.coverImage" fit="cover" class="story-img" />
+            <el-image :src="story.coverImage" fit="cover" class="story-img">
+              <template #error><div class="img-fallback"><el-icon :size="40"><Picture /></el-icon><span>图片加载失败</span></div></template>
+            </el-image>
             <div class="story-info">
               <h3>{{ story.title }}</h3>
               <p class="author">作者：{{ story.author }} · {{ story.publishTime }}</p>
@@ -27,6 +29,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import { Picture } from '@element-plus/icons-vue'
 import request from '@/api/request'
 
 const router = useRouter()
@@ -64,4 +67,5 @@ onMounted(loadData)
 .author { color: #999; font-size: 13px; margin-top: 8px; }
 .preview { color: #666; font-size: 14px; margin-top: 8px; }
 .pagination { display: flex; justify-content: center; margin-top: 20px; }
+.img-fallback { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; background: #f5f7fa; color: #c0c4cc; gap: 8px; font-size: 12px; }
 </style>

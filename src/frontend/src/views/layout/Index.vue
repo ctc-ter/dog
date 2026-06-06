@@ -12,6 +12,7 @@
         <el-menu-item index="/donate">爱心捐赠</el-menu-item>
         <el-menu-item index="/volunteer">志愿者招募</el-menu-item>
         <el-menu-item index="/lost-found">寻狗/招领</el-menu-item>
+        <el-menu-item index="/recognize">AI识别</el-menu-item>
       </el-menu>
     </el-header>
     <el-main class="main">
