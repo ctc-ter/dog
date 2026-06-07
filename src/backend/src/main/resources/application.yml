@@ -1,0 +1,56 @@
+server:
+  port: 8081
+
+spring:
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:schema.sql
+  application:
+    name: dog-rescue-backend
+  datasource:
+    url: jdbc:postgresql://localhost:5432/dog_rescue
+    username: 陈通才
+    password: ctc20050522
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      connection-timeout: 5000
+      maximum-pool-size: 5
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 100MB
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      database: 0
+      timeout: 3000
+      lettuce:
+        pool:
+          max-active: 8
+          max-idle: 8
+          min-idle: 0
+          max-wait: -1ms
+
+mybatis-plus:
+  mapper-locations: classpath:/mapper/**/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      id-type: auto
+
+jwt:
+  secret: dog-rescue-jwt-secret-key-2024-very-long-and-secure
+  expiration: 86400000
+
+file:
+  upload-path: ./uploads
+
+# 通义千问 VL 多模态 API 配置（用于狗狗图像识别）
+dashscope:
+  api-key: sk-22ae823b889a45e5921340a326985b97
+  model: qwen-vl-max
+  base-url: https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions

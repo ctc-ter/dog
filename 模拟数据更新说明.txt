@@ -1,0 +1,99 @@
+========================================
+  流浪狗救助站 - 模拟数据更新说明
+========================================
+
+## 本次更新内容
+
+### 1. 新增统计接口
+- 文件：src/backend/src/main/java/com/dogrescue/controller/StatisticsController.java
+- 功能：提供首页统计数据接口 /api/stats/home
+- 返回数据：
+  * rescuedDogs: 已救助狗狗总数
+  * adoptedDogs: 成功领养数量
+  * activeVolunteers: 活跃志愿者数量
+  * monthlyDonations: 本月捐款总额
+
+### 2. 更新数据初始化器（重点：已添加图片）
+- 文件：src/backend/src/main/java/com/dogrescue/config/DataInitializer.java
+- 更新内容：
+  ✓ 为所有150只狗狗添加1-3张真实图片URL（逗号分隔）
+  ✓ 为所有80个故事添加封面图片URL
+  ✓ 为所有50条失物招领添加1-2张图片URL（逗号分隔）
+  ✓ 图片来源于 Unsplash 免费图片库
+  ✓ 图片格式符合前端要求（逗号分隔的多图格式）
+
+### 3. 更新前端首页
+- 文件：src/frontend/src/views/front/Home.vue
+- 更新内容：
+  * 统计数据改为从后端动态获取
+  * 添加 formatMoney 函数格式化金额显示
+  * 统计数据包括：已救助狗狗、成功领养、活跃志愿者、本月捐款
+
+### 4. 更新失物招领页面
+- 文件：src/frontend/src/views/front/LostFound.vue
+- 更新内容：
+  * 从表格布局改为卡片式布局
+  * 添加图片显示功能
+  * 更美观的展示效果
+
+## 模拟数据概览
+
+| 数据类型 | 数量 | 图片 | 说明 |
+|---------|------|------|------|
+| 狗狗信息 | 150只 | ✓ 1-3张/只 | 逗号分隔的多图格式 |
+| 救助故事 | 80个 | ✓ 封面图 | 每个故事都有封面 |
+| 领养申请 | 100条 | - | 不需要图片 |
+| 志愿者 | 60名 | - | 不需要图片 |
+| 失物招领 | 50条 | ✓ 1-2张/条 | 逗号分隔的多图格式 |
+| 捐赠记录 | 120笔 | - | 不需要图片 |
+| **总计** | **560条** | **280张图片** | 所有案例都有图片 |
+
+## 如何生效（重要）
+
+### 方式一：首次使用（数据库为空）
+1. 在IDEA中启动 DogRescueApplication
+2. 系统会自动生成所有模拟数据（带图片）
+
+### 方式二：重新生成数据（已有旧数据）
+如果之前已经生成过数据（没有图片的），需要清空后重新生成：
+
+**步骤：**
+1. 连接PostgreSQL数据库
+2. 执行清空脚本：src/backend/src/main/resources/clear_data.sql
+   或者手动执行：
+   ```sql
+   DELETE FROM dogs;
+   DELETE FROM stories;
+   DELETE FROM adoptions;
+   DELETE FROM volunteers;
+   DELETE FROM lost_found;
+   DELETE FROM donations;
+   ```
+3. 在IDEA中重启 DogRescueApplication
+4. 系统会检测到数据为空，重新生成带图片的新数据
+
+## 验证图片是否显示
+
+启动后访问以下页面检查图片：
+
+1. **首页** - http://localhost:3000
+   - 查看"等待回家的毛孩子"区域的狗狗图片
+   - 查看"温暖的救助故事"区域的故事封面
+
+2. **狗狗列表页** - http://localhost:3000/dogs
+   - 应该看到所有狗狗都有图片
+
+3. **失物招领页** - http://localhost:3000/lost-found
+   - 应该看到所有启事都有图片
+
+4. **故事列表页** - http://localhost:3000/stories
+   - 应该看到所有故事都有封面图
+
+## 注意事项
+
+- 图片来自 Unsplash 免费图片库，需要联网才能加载
+- 如果图片显示不出来，请检查网络连接
+- 数据初始化只会执行一次（当狗狗数据少于10条时）
+- 所有图片URL都是逗号分隔的格式，符合前端split(',')的要求
+
+========================================
